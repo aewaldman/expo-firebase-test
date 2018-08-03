@@ -13,8 +13,8 @@ export default class TakeVideoScreen extends React.Component {
   };
 
   async componentWillMount() {
-    const { status } = await Permissions.askAsync(Permissions.CAMERA);
-    this.setState({ hasCameraPermission: status === 'granted' });
+    const { statusCamera } = await Permissions.askAsync(Permissions.CAMERA);
+    this.setState({ hasCameraPermission: statusCamera === 'granted' });
   }
 
   render() {

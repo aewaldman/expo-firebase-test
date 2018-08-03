@@ -10,15 +10,23 @@ export default class UploadImageComponent extends React.Component {
         header: null,
     };
 
+    state = {
+        cameraRollPermission: null,
+    };
+
+
     onUploadPicturePress = async () => {
 
-        const { status } = await Permissions.askAsync(Permissions.CAMERA_ROLL);
-        console.log(status);
-        if ( status !== 'granted' ) {
+        const cameraRollPermission = await Permissions.askAsync(Permissions.CAMERA_ROLL);
+        this.setState({
+            cameraRollPermission: cameraRollPermission.status,
+        })
+        console.log(cameraRollPermission);
+        
+        if ( this.state.cameraRollPermission !== 'granted' ) {
             console.log("still waiting");
-            await Permissions.askAsync(Permissions.CAMERA_ROLL);
         }
-        if ( status === 'granted') {
+        if ( this.state.cameraRollPermission === 'granted') {
             let result = await ImagePicker.launchImageLibraryAsync();
             console.log(result);
             if (!result.cancelled) {

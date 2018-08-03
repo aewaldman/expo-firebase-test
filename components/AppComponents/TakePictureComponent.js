@@ -9,14 +9,18 @@ export default class TakePictureComponent extends React.Component {
         header: null,
     };
 
+    state = {
+        cameraPermission: null,
+    };
+
     onTakePicturePress = async () => {
 
-        const { status } = await Permissions.askAsync(Permissions.CAMERA);
-        console.log(status);
-        if ( status !== 'granted' ) {
-            await Permissions.askAsync(Permissions.CAMERA);
-        }
-        if ( status === 'granted' ) {
+        const cameraPermission = await Permissions.askAsync(Permissions.CAMERA);
+        this.setState({
+            cameraPermission: cameraPermission.status,
+        })
+        console.log(cameraPermission);
+        if ( this.state.cameraPermission === 'granted' ) {
             let result = await ImagePicker.launchCameraAsync();
             console.log(result);
             if (!result.cancelled) {
