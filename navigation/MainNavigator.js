@@ -3,14 +3,21 @@ import { Platform } from 'react-native';
 import { createStackNavigator, createBottomTabNavigator } from 'react-navigation';
 
 import TabBarIcon from '../components/TabBarIcon';
-import TestScreen from '../screens/TestScreen';
+import HomeScreen from '../screens/HomeScreen';
+import TakeVideoScreen from '../screens/TakeVideoScreen';
 
-const TestStack = createStackNavigator({ 
-    Test: TestScreen, 
-  });
+const MainStack = createStackNavigator(
+  { 
+    Home: HomeScreen, 
+    TakeVideo: TakeVideoScreen,
+  },
+  {
+    initialRouteName: 'Home',
+  }
+);
 
-TestStack.navigationOptions = {
-  tabBarLabel: 'Test',
+MainStack.navigationOptions = {
+  tabBarLabel: 'Home',
   tabBarIcon: ({ focused }) => (
     <TabBarIcon
       focused={focused}
@@ -24,5 +31,5 @@ TestStack.navigationOptions = {
 };
 
 export default createBottomTabNavigator({
-  TestStack,
+  MainStack,
 });

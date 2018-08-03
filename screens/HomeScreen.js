@@ -1,10 +1,13 @@
 import React from 'react';
-import { Image, Platform, ScrollView, StyleSheet, Text,TouchableOpacity, View, Button, } from 'react-native';
-import { TestComponent } from '../components/AppComponents';
-import TakePictureComponent from '../components/AppComponents/TakePictureComponent';
+import { StyleSheet, View, Button, } from 'react-native';
+import { 
+    UploadImageComponent, 
+    TakePictureComponent, 
+    TakeVideoComponent,
+  } from '../components/AppComponents';
 import * as firebase from 'firebase';
 
-export default class TestScreen extends React.Component {
+export default class HomeScreen extends React.Component {
   static navigationOptions = {
     header: null,
   };
@@ -16,10 +19,12 @@ onSignOutPress = () => {
   render() {
     return (
       <View style={{paddingTop:20, alignItems:"center" }}>
-        <View style={{paddingTop:100}} />
-        <TestComponent />
+        <View style={{paddingTop:50}} />
+        <UploadImageComponent />
         <View style={{paddingTop:20}} />
         <TakePictureComponent />
+        <View style={{paddingTop:20}} />
+        <TakeVideoComponent />
         <View style={{paddingTop:100}} />
         <Button title="Sign out" onPress={this.onSignOutPress} />
       </View>

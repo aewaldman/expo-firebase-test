@@ -1,10 +1,11 @@
 import React from 'react';
 import { View, Text, Button, Alert } from 'react-native';
+import { NavigationActions } from 'react-navigation';
 import { ImagePicker, Permissions } from 'expo'; 
 import * as firebase from 'firebase';
 
 
-export default class TestComponent extends React.Component {
+export default class UploadImageComponent extends React.Component {
     static navigationOptions = {
         header: null,
     };
@@ -23,6 +24,7 @@ export default class TestComponent extends React.Component {
             if (!result.cancelled) {
                 this.uploadImage(result.uri, "take-picture");
                 console.log("after uploadImage");
+               // this.props.navigation.push("UploadImageShow");
             }
         }
     }

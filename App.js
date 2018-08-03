@@ -2,7 +2,7 @@ import React from 'react';
 import { Platform, StatusBar, StyleSheet, View } from 'react-native';
 import { AppLoading, Asset, Font, Icon } from 'expo';
 import AppNavigator from './navigation/AppNavigator';
-import MainTabNavigator from './navigation/MainTabNavigator';
+import MainNavigator from './navigation/MainNavigator';
 import ApiKeys from './constants/ApiKeys';
 import * as firebase from 'firebase';
 
@@ -42,7 +42,7 @@ export default class App extends React.Component {
       return (
         <View style={styles.container}>
           {Platform.OS === 'ios' && <StatusBar barStyle="default" />}
-          {(this.state.isAuthenticated) ? <MainTabNavigator /> : <AppNavigator /> }
+          {(this.state.isAuthenticated) ? <MainNavigator /> : <AppNavigator /> }
         </View>
       );
     }

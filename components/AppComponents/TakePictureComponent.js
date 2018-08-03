@@ -17,7 +17,7 @@ export default class TakePictureComponent extends React.Component {
             await Permissions.askAsync(Permissions.CAMERA);
         }
         if ( status === 'granted' ) {
-            let result = await ImagePicker.launchCameraAsync ();
+            let result = await ImagePicker.launchCameraAsync();
             console.log(result);
             if (!result.cancelled) {
                 this.uploadImage(result.uri, "take-picture");
