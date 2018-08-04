@@ -10,6 +10,7 @@ export default class TakeVideoScreen extends React.Component {
 
   state = {
     cameraPermission: null,
+    cameraAudioRecording: null,
     type: Camera.Constants.Type.back,
   };
 
@@ -17,15 +18,17 @@ export default class TakeVideoScreen extends React.Component {
 
   async componentWillMount() {
     const cameraPermission = await Permissions.askAsync(Permissions.CAMERA);
+    const cameraAudioRecording = await Permissions.askAsync(Permissions.AUDIO_RECORDING);
     this.setState({
       cameraPermission: cameraPermission.status,
+      cameraAudioRecording: cameraAudioRecording.status,
     })
 };
 
   render() {
-    if ( this.state.cameraPermission === null ) {
+    if ( this.state.cameraPermission === null || this.state.cameraAudioRecording === null ) {
       return <View />;
-    } else if (!this.state.cameraPermission === 'granted' ) {
+    } else if (!this.state.cameraPermission === 'granted' && !this.state.cameraAudioRecording === 'granted') {
       return <Text>No access to camera</Text>;
     } else {
       return (
@@ -53,6 +56,32 @@ export default class TakeVideoScreen extends React.Component {
                 <Text
                   style={{ fontSize: 18, marginBottom: 10, color: 'white' }}>
                   {' '}Flip{' '}
+                </Text>
+              </TouchableOpacity>
+            </View>
+            <View
+              style={{
+                flex: 0.2,
+                backgroundColor: 'transparent',
+                flexDirection: 'row',
+              }}>
+              <TouchableOpacity
+                style={{
+                  flex: 0.2,
+                  alignSelf: 'flex-end',
+                  alignItems: 'center',
+                }}
+                onPress={() => {
+                    // need to create the ref to the camera and then do the recordAsync 
+                    // then need to capture the promise with the .then 
+                    
+                    //below here doesn't work
+                    //let result = Camera.recordAsync({ maxDuration: 5, });
+                    //console.log(result);
+                }}>
+                <Text
+                  style={{ fontSize: 18, marginBottom: 10, color: 'white' }}>
+                  {' '}Record{' '}
                 </Text>
               </TouchableOpacity>
             </View>
