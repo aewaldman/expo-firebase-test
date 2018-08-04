@@ -1,5 +1,6 @@
 import React from 'react';
 import { Image, Platform, ScrollView, StyleSheet, Text,TouchableOpacity, View, Button, } from 'react-native';
+import { Camera, Permissions } from 'expo';
 
 
 export default class TakeVideoScreen extends React.Component {
@@ -8,20 +9,23 @@ export default class TakeVideoScreen extends React.Component {
   };
 
   state = {
-    hasCameraPermission: null,
+    cameraPermission: null,
     type: Camera.Constants.Type.back,
   };
 
+  
+
   async componentWillMount() {
-    const { statusCamera } = await Permissions.askAsync(Permissions.CAMERA);
-    this.setState({ hasCameraPermission: statusCamera === 'granted' });
-  }
+    const cameraPermission = await Permissions.askAsync(Permissions.CAMERA);
+    this.setState({
+      cameraPermission: cameraPermission.status,
+    })
+};
 
   render() {
-    const { hasCameraPermission } = this.state;
-    if (hasCameraPermission === null) {
+    if ( this.state.cameraPermission === null ) {
       return <View />;
-    } else if (hasCameraPermission === false) {
+    } else if (!this.state.cameraPermission === 'granted' ) {
       return <Text>No access to camera</Text>;
     } else {
       return (

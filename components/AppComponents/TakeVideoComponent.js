@@ -1,26 +1,27 @@
 import React from 'react';
-import { View, Text, Button, Alert } from 'react-native';
-import { Camera, Permissions } from 'expo'; 
-import * as firebase from 'firebase';
-
+import { View, Button } from 'react-native';
 
 export default class TakeVideoComponent extends React.Component {
-    static navigationOptions = {
-        header: null,
-    };
+   
+    constructor(props) {
+        super(props);
+        this.state = { 
+        };
+    }
 
     onTakeVideoPress = () => {
-      this.props.navigation.navigate("TakeVideoScreen");
+        console.log('onTakeVideoPress');
+        this.props.navigation.navigate('TakeVideo');
     }
     
-    uploadImage = async (uri, imageName) => {
+   /* uploadImage = async (uri, imageName) => {
             const response = await fetch(uri);
             const blob = await response.blob();
             
             var uid = firebase.auth().currentUser.uid;
             var ref = firebase.storage().ref().child("images/" + uid + "/" + imageName);
             return ref.put(blob);
-    }
+    }*/
 
     render() {
            return (

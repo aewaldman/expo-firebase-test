@@ -1,6 +1,5 @@
 import React from 'react';
 import { createSwitchNavigator, createStackNavigator } from 'react-navigation';
-import MainNavigator from './MainNavigator';
 import LoginScreen from '../screens/auth/LoginScreen';
 import SignupScreen from '../screens/auth/SignupScreen';
 import ForgotPasswordScreen from '../screens/auth/ForgotPasswordScreen';
@@ -8,15 +7,14 @@ import ForgotPasswordScreen from '../screens/auth/ForgotPasswordScreen';
 const LoginStack = createStackNavigator({ Login: LoginScreen });
 const SignupStack = createStackNavigator({ Signup: SignupScreen });
 const ForgotPasswordStack = createStackNavigator({ ForgotPassword: ForgotPasswordScreen });
-const AppStack = createStackNavigator({ Main: MainNavigator });
 
-export default createSwitchNavigator({
-  // You could add another route here for authentication.
-  // Read more at https://reactnavigation.org/docs/en/auth-flow.html
-  
+export default createSwitchNavigator(
+  {
     Login: LoginStack,
     Signup: SignupStack,
     ForgotPassword: ForgotPasswordStack,
-    Main: AppStack,
-
-});
+  },
+  {
+    initalRouteName: 'Login',
+  }
+);

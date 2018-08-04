@@ -4,7 +4,7 @@ import { ImagePicker, Permissions } from 'expo';
 import * as firebase from 'firebase';
 
 
-export default class UploadImageShow extends React.Component {
+export default class ShowObject extends React.Component {
 
 
     render() {
@@ -13,7 +13,7 @@ export default class UploadImageShow extends React.Component {
                     <Text>Firebase Image</Text>
                     <Image source= {{ uri: ''}} />
                     <View style={{paddingTop:50}} />
-                    <Text>Local Gallery Image</Text>
+                    <Text>Local Image</Text>
                     <Image source= {{ uri: ''}} />
                 </View>
             );

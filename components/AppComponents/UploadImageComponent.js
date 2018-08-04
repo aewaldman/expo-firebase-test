@@ -1,14 +1,13 @@
 import React from 'react';
 import { View, Text, Button, Alert } from 'react-native';
-import { NavigationActions } from 'react-navigation';
 import { ImagePicker, Permissions } from 'expo'; 
 import * as firebase from 'firebase';
 
 
 export default class UploadImageComponent extends React.Component {
-    static navigationOptions = {
+    /*static navigationOptions = {
         header: null,
-    };
+    };*/
 
     state = {
         cameraRollPermission: null,
@@ -30,9 +29,8 @@ export default class UploadImageComponent extends React.Component {
             let result = await ImagePicker.launchImageLibraryAsync();
             console.log(result);
             if (!result.cancelled) {
-                this.uploadImage(result.uri, "take-picture");
+                this.uploadImage(result.uri, "uploaded-picture");
                 console.log("after uploadImage");
-               // this.props.navigation.push("UploadImageShow");
             }
         }
     }

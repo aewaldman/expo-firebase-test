@@ -16,6 +16,11 @@ onSignOutPress = () => {
   firebase.auth().signOut();
 }
 
+onTakeVideoPress = () => {
+  console.log('onTakeVideoPress');
+  this.props.navigation.navigate('TakeVideo');
+}
+
   render() {
     return (
       <View style={{paddingTop:20, alignItems:"center" }}>
@@ -24,7 +29,9 @@ onSignOutPress = () => {
         <View style={{paddingTop:20}} />
         <TakePictureComponent />
         <View style={{paddingTop:20}} />
-        <TakeVideoComponent />
+        <View style={{paddingTop:50, alignItems:"center"}}>
+                    <Button title="Take Video" onPress={this.onTakeVideoPress} />
+        </View>        
         <View style={{paddingTop:100}} />
         <Button title="Sign out" onPress={this.onSignOutPress} />
       </View>
