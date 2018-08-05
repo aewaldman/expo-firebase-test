@@ -1,20 +1,33 @@
 import React from 'react';
 import { Image, Platform, ScrollView, StyleSheet, Text,TouchableOpacity, View, Button, } from 'react-native';
-import { Camera, Permissions } from 'expo';
-
+import { Camera, 
+  Permissions,
+} from 'expo';
+import * as firebase from 'firebase';
 
 export default class TakeVideoScreen extends React.Component {
-  static navigationOptions = {
-    header: null,
-  };
+  constructor (props) {
+    super (props);
+    this.state = {
+      cameraPermission: null,
+      cameraAudioRecording: null,
+      type: Camera.Constants.Type.back,
+      isRecording: false,
+    }
+  }
 
-  state = {
-    cameraPermission: null,
-    cameraAudioRecording: null,
-    type: Camera.Constants.Type.back,
-  };
+  stopRecording = () => {
+    this.camera.stopRecording();
+    this.setState({ isRecording: false });
+    };
 
-  
+  startRecording = async () => {
+    let result = await this.camera.recordAsync( {maxDuration: 5, mute: true } );
+    this.setState({ isRecording: true });
+    console.log(result);
+    this.uploadVideo(result.uri, "uploaded-video");
+    console.log("upload video done");
+  };
 
   async componentWillMount() {
     const cameraPermission = await Permissions.askAsync(Permissions.CAMERA);
@@ -23,7 +36,16 @@ export default class TakeVideoScreen extends React.Component {
       cameraPermission: cameraPermission.status,
       cameraAudioRecording: cameraAudioRecording.status,
     })
-};
+  };
+
+  uploadVideo = async (uri, videoName) => {
+    const response = await fetch(uri);
+    const blob = await response.blob();
+    
+    var uid = firebase.auth().currentUser.uid;
+    var ref = firebase.storage().ref().child("video/" + uid + "/" + videoName);
+    return ref.put(blob);
+}
 
   render() {
     if ( this.state.cameraPermission === null || this.state.cameraAudioRecording === null ) {
@@ -33,18 +55,20 @@ export default class TakeVideoScreen extends React.Component {
     } else {
       return (
         <View style={{ flex: 1 }}>
-          <Camera style={{ flex: 1 }} type={this.state.type}>
+          <Camera 
+            ref = { ref => { this.camera = ref ;}}
+            style={{ flex: 1 }} type={this.state.type}>
             <View
               style={{
                 flex: 1,
                 backgroundColor: 'transparent',
                 flexDirection: 'row',
+          
               }}>
               <TouchableOpacity
                 style={{
-                  flex: 0.1,
                   alignSelf: 'flex-end',
-                  alignItems: 'center',
+                  alignItems: 'baseline',
                 }}
                 onPress={() => {
                   this.setState({
@@ -54,34 +78,41 @@ export default class TakeVideoScreen extends React.Component {
                   });
                 }}>
                 <Text
-                  style={{ fontSize: 18, marginBottom: 10, color: 'white' }}>
+                  style={{ fontSize: 12, marginBottom: 10, color: 'white' }}>
                   {' '}Flip{' '}
                 </Text>
               </TouchableOpacity>
             </View>
             <View
               style={{
-                flex: 0.2,
+              
                 backgroundColor: 'transparent',
                 flexDirection: 'row',
               }}>
               <TouchableOpacity
                 style={{
-                  flex: 0.2,
+                  
                   alignSelf: 'flex-end',
-                  alignItems: 'center',
+                  alignItems: 'baseline',
                 }}
-                onPress={() => {
-                    // need to create the ref to the camera and then do the recordAsync 
-                    // then need to capture the promise with the .then 
-                    
-                    //below here doesn't work
-                    //let result = Camera.recordAsync({ maxDuration: 5, });
-                    //console.log(result);
-                }}>
+                onPress={this.startRecording}
+                >
                 <Text
-                  style={{ fontSize: 18, marginBottom: 10, color: 'white' }}>
-                  {' '}Record{' '}
+                  style={{ fontSize: 12, marginBottom: 15, color: 'white' }}>
+                  {' '}Start Recording{' '}
+                </Text>
+              </TouchableOpacity>
+              <TouchableOpacity
+                style={{
+               
+                  alignSelf: 'flex-end',
+                  alignItems: 'baseline',
+                }}
+                onPress={this.stopRecording}
+                >
+                <Text
+                  style={{ fontSize: 12, marginBottom: 15, color: 'white' }}>
+                  {' '}Stop Recording{' '}
                 </Text>
               </TouchableOpacity>
             </View>
