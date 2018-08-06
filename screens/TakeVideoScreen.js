@@ -22,7 +22,7 @@ export default class TakeVideoScreen extends React.Component {
     };
 
   startRecording = async () => {
-    let result = await this.camera.recordAsync( {maxDuration: 5, mute: true } );
+    let result = await this.camera.recordAsync( { maxDuration: 5 } );
     this.setState({ isRecording: true });
     console.log(result);
     this.uploadVideo(result.uri, "uploaded-video");
